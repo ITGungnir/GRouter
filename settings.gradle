@@ -1,0 +1,5 @@
+include ':app', ':app_sub'
+
+include ':common'
+
+include ':router_api', ':router_compiler', ':router_annotation', ':router_plugin'

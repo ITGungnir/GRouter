@@ -1,0 +1,32 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="test.itgungnir.grouter">
+
+    <application android:theme="@style/AppTheme">
+
+        <activity android:name=".AnotherActivity1" />
+
+        <activity android:name=".AnotherActivity2" />
+
+        <activity android:name=".AnotherActivity3" />
+
+        <activity android:name=".AnotherActivity4" />
+
+        <activity android:name=".AnotherActivity5" />
+
+        <activity android:name=".AnotherActivity6" />
+
+        <activity android:name=".AnotherActivity7" />
+
+        <activity android:name=".AccountActivity1" />
+
+        <activity android:name=".AccountActivity2" />
+
+        <activity android:name=".AccountActivity3" />
+
+        <activity android:name=".AccountActivity4" />
+
+        <activity android:name=".AccountActivity5" />
+
+    </application>
+
+</manifest>

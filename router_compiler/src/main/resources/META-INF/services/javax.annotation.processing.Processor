@@ -1,0 +1,3 @@
+my.itgungnir.grouter.compiler.RouteCompiler
+my.itgungnir.grouter.compiler.MatcherCompiler
+my.itgungnir.grouter.compiler.GlobalInterceptorCompiler

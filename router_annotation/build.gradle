@@ -1,0 +1,12 @@
+apply plugin: 'java-library'
+apply plugin: 'kotlin'
+apply plugin: 'com.github.dcendents.android-maven'
+
+group = 'com.github.ITGungnir'
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+}
+
+sourceCompatibility = jdk_version
+targetCompatibility = jdk_version
