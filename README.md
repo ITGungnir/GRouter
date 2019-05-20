@@ -1,6 +1,8 @@
 # GRouter
 
 [![](https://jitpack.io/v/ITGungnir/GRouter.svg)](https://jitpack.io/#ITGungnir/GRouter)
+![License](https://img.shields.io/badge/License-Apache2.0-blue.svg)
+![](https://img.shields.io/badge/Email-itgungnir@163.com-ff69b4.svg)
 
 ### Android router framework based on KAPT and ASM tools.
 
@@ -259,3 +261,20 @@ buildscript {
 第二步：`router_plugin -> Tasks -> upload -> uploadArchives`
 
 完成以上对插件的构建和上传操作，就可以对app模块或整个项目进行构建，或者直接运行项目
+
+## License
+```text
+Copyright 2019 ITGungnir
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+```
