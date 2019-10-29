@@ -1,4 +1,4 @@
-package test.itgungnir.grouter
+package test.itgungnir.grouter.sub
 
 import android.app.Notification
 import android.app.NotificationChannel

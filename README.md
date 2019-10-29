@@ -195,18 +195,20 @@ class LogGlobalInterceptor : Interceptor {
 ## 4、使用本框架的注意事项（重要！！！）
 #### 1）项目顶层模块（如app模块）的包结构至少要有两层，不要在`src/main/java`目录下直接建类，否则无法注入代码！
 
-#### 2）无论有没有用到，都需要在顶层模块中创建`Application`类，重写`onCreate()`方法，并在`AndroidManifest.xml`文件中配置，否则无法注入代码！
+#### 2）项目的单级目录中请不要含有`intermediates`，否则无法注入代码！
 
-#### 3）如果要使用`goForResult()`操作，必须确保项目中导入了`RxJava 2.x`依赖，否则运行时报错：找不到`Observable`类！
+#### 3）无论有没有用到，都需要在顶层模块中创建`Application`类，重写`onCreate()`方法，并在`AndroidManifest.xml`文件中配置，否则无法注入代码！
 
-#### 4）建议将app模块作为壳子模块，其中的类越少越好~
+#### 4）如果要使用`goForResult()`操作，必须确保项目中导入了`RxJava 2.x`依赖，否则运行时报错：找不到`Observable`类！
+
+#### 5）建议将app模块作为壳子模块，其中的类越少越好~
 
 ## 5、`router_compiler`模块调试方法
 #### 1）在`Terminal`中输入以下代码：
 ```text
-gradlew clean build --no-daemon -Dorg.gradle.debug=true -Dkotlin.compiler.execution.strategy="in-process" 
--Dkotlin.daemon.jvm.options="-Xdebug,-Xrunjdwp:transport=dt_socket\,address=5005\,server=y\,suspend=n"
+gradlew clean build --no-daemon -Dorg.gradle.debug=true -Dkotlin.compiler.execution.strategy="in-process" -Dkotlin.daemon.jvm.options="-Xdebug,-Xrunjdwp:transport=dt_socket\,address=5005\,server=y\,suspend=n"
 ```
+**注意：** `Mac`系统中需要使用`./gradlew`命令，如果提示`command not found`，需要先运行`chmod +x gradlew`。
 
 #### 2）新建一个`Remote`任务
 

@@ -21,9 +21,11 @@ class RouterTransform : Transform() {
 
     override fun getName() = "GRouter"
 
-    override fun getInputTypes(): MutableSet<QualifiedContent.ContentType> = TransformManager.CONTENT_CLASS
+    override fun getInputTypes(): MutableSet<QualifiedContent.ContentType> =
+        TransformManager.CONTENT_CLASS
 
-    override fun getScopes(): MutableSet<QualifiedContent.Scope> = TransformManager.SCOPE_FULL_PROJECT
+    override fun getScopes(): MutableSet<QualifiedContent.ScopeType> =
+        TransformManager.SCOPE_FULL_PROJECT
 
     override fun isIncremental(): Boolean = true
 
@@ -44,7 +46,7 @@ class RouterTransform : Transform() {
         if (dirInput.file.isDirectory) {
             dirInput.file.forEachFile { file ->
                 val name = file.name
-                if (checkDirFile(file.absolutePath, name)) {
+                if (checkJarFile(name)) {
                     when {
                         name.endsWith("RouteTable.class") ->
                             routeTables.add(name.substring(0, name.length - 6))
@@ -52,22 +54,24 @@ class RouterTransform : Transform() {
                             matcherTables.add(name.substring(0, name.length - 6))
                         name.endsWith("GlobalInterceptorTable.class") ->
                             interceptorTables.add(name.substring(0, name.length - 6))
-                        else -> {
-                            val cr = ClassReader(file.readBytes())
-                            val cw = ClassWriter(cr, ClassWriter.COMPUTE_MAXS)
-                            val cv = AppClassVisitor(
-                                cw,
-                                routeTables,
-                                matcherTables,
-                                interceptorTables
-                            )
-                            cr.accept(cv, ClassReader.EXPAND_FRAMES)
-                            val code = cw.toByteArray()
-                            val fos = FileOutputStream(file.absolutePath)
-                            fos.write(code)
-                            fos.close()
-                        }
                     }
+                }
+            }
+            dirInput.file.forEachFile { file ->
+                if (checkDirFile(file.absolutePath, file.name)) {
+                    val cr = ClassReader(file.readBytes())
+                    val cw = ClassWriter(cr, ClassWriter.COMPUTE_MAXS)
+                    val cv = AppClassVisitor(
+                        cw,
+                        routeTables,
+                        matcherTables,
+                        interceptorTables
+                    )
+                    cr.accept(cv, ClassReader.EXPAND_FRAMES)
+                    val code = cw.toByteArray()
+                    val fos = FileOutputStream(file.absolutePath)
+                    fos.write(code)
+                    fos.close()
                 }
             }
         }
@@ -120,7 +124,8 @@ class RouterTransform : Transform() {
     private fun checkDirFile(absolutePath: String, fileName: String) =
         fileName.endsWith(".class") &&
                 !fileName.contains("\$") &&
-                !absolutePath.contains("\\intermediates\\")
+                !checkJarFile(fileName) &&
+                !(absolutePath.contains("/intermediates/") || absolutePath.contains("\\intermediates\\"))
 
     private fun checkJarFile(fileName: String) =
         Pattern.compile("^(a/)?A[0-9A-Z]{32}(GlobalInterceptor|Matcher|Route)Table.class\$")

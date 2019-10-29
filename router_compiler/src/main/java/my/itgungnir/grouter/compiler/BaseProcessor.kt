@@ -37,7 +37,7 @@ abstract class BaseProcessor : AbstractProcessor() {
     /**
      * 生成唯一的UUID字符串
      */
-    protected fun uuid() = UUID.randomUUID().toString().replace("-", "").toUpperCase()
+    protected fun uuid() = UUID.randomUUID().toString().replace("-", "").toUpperCase(Locale.CHINA)
 
     abstract override fun getSupportedAnnotationTypes(): MutableSet<String>
 

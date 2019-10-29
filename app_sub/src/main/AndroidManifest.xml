@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="test.itgungnir.grouter">
+    package="test.itgungnir.grouter.sub">
 
     <application android:theme="@style/AppTheme">
 
