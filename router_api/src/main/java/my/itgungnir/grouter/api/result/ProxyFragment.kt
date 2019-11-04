@@ -41,10 +41,10 @@ class ProxyFragment : Fragment() {
         }
     }
 
-    fun dispatchStartActivityForResult(intent: Intent): Observable<ProxyResult> {
+    fun dispatchStartActivityForResult(intent: Intent, requestCode: Int): Observable<ProxyResult> {
         this.subject = PublishSubject.create()
         return subject!!.doOnSubscribe {
-            startActivityForResult(intent, 1)
+            startActivityForResult(intent, requestCode)
         }
     }
 }

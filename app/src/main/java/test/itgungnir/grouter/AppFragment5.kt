@@ -23,7 +23,7 @@ class AppFragment5 : Fragment() {
         button.setOnClickListener {
             Router.instance.with(this)
                 .target("another7")
-                .goForResult()?.subscribe {
+                .goForResult(1)?.subscribe {
                     if (it.code == ProxyResult.ResultCode.RESULT_OK) {
                         it.extras.getString("backKey")?.let { str ->
                             Toast.makeText(context, str, Toast.LENGTH_SHORT).show()

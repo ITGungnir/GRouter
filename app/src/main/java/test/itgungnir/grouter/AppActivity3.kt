@@ -18,7 +18,7 @@ class AppActivity3 : AppCompatActivity() {
         button.setOnClickListener {
             Router.instance.with(this)
                 .target("another5")
-                .goForResult()?.subscribe {
+                .goForResult(1)?.subscribe {
                     if (it.code == ProxyResult.ResultCode.RESULT_OK) {
                         it.extras.getString("backKey")?.let { str ->
                             Toast.makeText(this, str, Toast.LENGTH_SHORT).show()

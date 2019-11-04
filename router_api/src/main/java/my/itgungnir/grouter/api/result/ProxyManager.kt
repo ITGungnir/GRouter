@@ -34,5 +34,5 @@ class ProxyManager(private val context: Any, private val intent: Intent) {
             return fragment
         }
 
-    fun getResult() = proxyFragment.dispatchStartActivityForResult(intent)
+    fun getResult(requestCode: Int) = proxyFragment.dispatchStartActivityForResult(intent, requestCode)
 }

@@ -94,9 +94,9 @@ class RouterManager(var request: RouterRequest) {
      * 相当于startActivityForResult()方法
      * 返回的是一个(RxJava)Observable对象
      */
-    fun goForResult() = request.safeContext()?.let {
+    fun goForResult(requestCode: Int) = request.safeContext()?.let {
         getIntent()?.let { intent ->
-            ProxyManager(it, intent).getResult()
+            ProxyManager(it, intent).getResult(requestCode)
         }
     }
 }

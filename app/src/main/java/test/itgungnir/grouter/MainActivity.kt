@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
         button3.setOnClickListener {
             Router.instance.with(this)
                 .target("app2")
-                .goForResult()?.subscribe {
+                .goForResult(1)?.subscribe {
                     if (it.code == ProxyResult.ResultCode.RESULT_OK) {
                         it.extras.getString("backKey")?.let { str ->
                             Toast.makeText(this, str, Toast.LENGTH_SHORT).show()
@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity() {
         button4.setOnClickListener {
             Router.instance.with(this)
                 .target("account2")
-                .goForResult()?.subscribe {
+                .goForResult(1)?.subscribe {
                     if (it.code == ProxyResult.ResultCode.RESULT_OK) {
                         it.extras.getString("backKey")?.let { str ->
                             Toast.makeText(this, str, Toast.LENGTH_SHORT).show()

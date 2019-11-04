@@ -83,7 +83,7 @@ Router.instance.with(this)
 ```kotlin
 Router.instance.with(this)
     .target("app1")
-    .goForResult()?.subscribe {
+    .goForResult(1)?.subscribe {
         if (it.code == ProxyResult.ResultCode.RESULT_OK) {
             it.extras.getString("backKey")?.let { str ->
                 Toast.makeText(this, str, Toast.LENGTH_SHORT).show()
@@ -263,6 +263,9 @@ buildscript {
 第二步：`router_plugin -> Tasks -> upload -> uploadArchives`
 
 完成以上对插件的构建和上传操作，就可以对app模块或整个项目进行构建，或者直接运行项目
+
+## To polish
+* 为`Activity`增加`@Autowired`注解，实现参数自动注入；
 
 ## License
 ```text
