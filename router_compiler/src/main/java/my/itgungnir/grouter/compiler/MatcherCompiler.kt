@@ -15,7 +15,7 @@ import javax.lang.model.element.TypeElement
  *
  * Matcher用于匹配路由字符串，并生成对应的Intent
  */
-class MatcherCompiler : BaseProcessor() {
+class MatcherCompiler : BaseCompiler() {
 
     override fun getSupportedAnnotationTypes() = linkedSetOf(Matcher::class.java.name)
 

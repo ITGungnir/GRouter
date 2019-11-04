@@ -212,7 +212,7 @@ class LogGlobalInterceptor : Interceptor {
 ## 5、`router_compiler`模块调试方法
 #### 1）在`Terminal`中输入以下代码：
 ```text
-gradlew clean build --no-daemon -Dorg.gradle.debug=true -Dkotlin.compiler.execution.strategy="in-process" -Dkotlin.daemon.jvm.options="-Xdebug,-Xrunjdwp:transport=dt_socket\,address=5005\,server=y\,suspend=n"
+./gradlew clean build --no-daemon -Dorg.gradle.debug=true -Dkotlin.compiler.execution.strategy="in-process" -Dkotlin.daemon.jvm.options="-Xdebug,-Xrunjdwp:transport=dt_socket\,address=5005\,server=y\,suspend=n"
 ```
 **注意：** `Mac`系统中需要使用`./gradlew`命令，如果提示`command not found`，需要先运行`chmod +x gradlew`。
 

@@ -13,7 +13,7 @@ import javax.lang.model.element.TypeElement
  *
  * 提供了代码生成器中的公共属性和方法
  */
-abstract class BaseProcessor : AbstractProcessor() {
+abstract class BaseCompiler : AbstractProcessor() {
 
     // 生成文件的目录
     protected val sourceDirectory = "a"

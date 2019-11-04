@@ -15,7 +15,7 @@ import javax.lang.model.element.TypeElement
  *
  * GlobalInterceptor用于在每个路由请求发出时进行拦截
  */
-class GlobalInterceptorCompiler : BaseProcessor() {
+class GlobalInterceptorCompiler : BaseCompiler() {
 
     override fun getSupportedAnnotationTypes() = linkedSetOf(GlobalInterceptor::class.java.name)
 

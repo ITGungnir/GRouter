@@ -21,7 +21,7 @@ import javax.lang.model.element.TypeElement
  *   }
  * }
  */
-class RouteCompiler : BaseProcessor() {
+class RouteCompiler : BaseCompiler() {
 
     override fun getSupportedAnnotationTypes() = linkedSetOf(Route::class.java.name)
 
