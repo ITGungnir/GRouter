@@ -13,6 +13,10 @@
 ```groovy
 buildscript {
     // ... Your codes
+    repositories {
+        // ... Your codes
+        maven { url 'https://jitpack.io' }
+    }
     dependencies {
         // ... Your codes
         classpath "com.github.ITGungnir.GRouter:router_plugin:$router_version"
@@ -26,7 +30,7 @@ dependencies {
     // ... Your codes
     api "com.github.ITGungnir.GRouter:router_api:$router_version"
     // 如果要使用goForResult()功能，请导入RxJava 2.x的依赖
-    // api "io.reactivex.rxjava2:rxjava:$rxjava_version"
+    api "io.reactivex.rxjava2:rxjava:$rxjava_version"
 }
 ```
 
@@ -203,6 +207,8 @@ class LogGlobalInterceptor : Interceptor {
 
 #### 5）建议将app模块作为壳子模块，其中的类越少越好~
 
+#### 6）建议使用`Kotlin`语言，如果使用`Java`语言，`goForResult()`等一些功能语法会显得非常不优雅～
+
 ## 5、`router_compiler`模块调试方法
 #### 1）在`Terminal`中输入以下代码：
 ```text
@@ -262,7 +268,7 @@ buildscript {
 
 第二步：`router_plugin -> Tasks -> upload -> uploadArchives`
 
-完成以上对插件的构建和上传操作，就可以对app模块或整个项目进行构建，或者直接运行项目
+第三步：`app -> Tasks -> build -> build`，此时在`Run`面板中即可看到日志
 
 ## To polish
 * 为`Activity`增加`@Autowired`注解，实现参数自动注入；
