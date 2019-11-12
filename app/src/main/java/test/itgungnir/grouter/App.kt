@@ -9,7 +9,8 @@ class App : MultiDexApplication() {
         super.onCreate()
 
         if (LeakCanary.isInAnalyzerProcess(this)) {
-            LeakCanary.install(this)
+            return
         }
+        LeakCanary.install(this)
     }
 }
