@@ -272,6 +272,12 @@ buildscript {
 
 ## To polish
 * 为`Activity`增加`@Autowired`注解，实现参数自动注入；
+* 使用`ContentProvider`进行`GRouter`的初始化，具体参考[对于ARouter一些改进的建议](https://github.com/alibaba/ARouter/issues/630)；
+* 在跳转到某个`Activity`之前先判断其是否存在，如果不存在则回调给用户处理；
+* 支持解析标准`URL`进行跳转；
+* 映射关系按组分类，按需初始化；
+* 支持设置专场动画；
+* 支持生成路由文档；
 
 ## License
 ```text
