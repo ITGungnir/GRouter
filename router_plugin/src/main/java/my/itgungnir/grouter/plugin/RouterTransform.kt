@@ -47,26 +47,14 @@ class RouterTransform : Transform() {
             dirInput.file.forEachFile { file ->
                 val name = file.name
                 if (checkJarFile(name)) {
-                    when {
-                        name.endsWith("RouteTable.class") ->
-                            routeTables.add(name.substring(0, name.length - 6))
-                        name.endsWith("MatcherTable.class") ->
-                            matcherTables.add(name.substring(0, name.length - 6))
-                        name.endsWith("GlobalInterceptorTable.class") ->
-                            interceptorTables.add(name.substring(0, name.length - 6))
-                    }
+                    saveFileNames(name)
                 }
             }
             dirInput.file.forEachFile { file ->
                 if (checkDirFile(file.absolutePath, file.name)) {
                     val cr = ClassReader(file.readBytes())
                     val cw = ClassWriter(cr, ClassWriter.COMPUTE_MAXS)
-                    val cv = AppClassVisitor(
-                        cw,
-                        routeTables,
-                        matcherTables,
-                        interceptorTables
-                    )
+                    val cv = AppClassVisitor(cw, routeTables, matcherTables, interceptorTables)
                     cr.accept(cv, ClassReader.EXPAND_FRAMES)
                     val code = cw.toByteArray()
                     val fos = FileOutputStream(file.absolutePath)
@@ -97,14 +85,7 @@ class RouterTransform : Transform() {
                 val inputStream = jarFile.getInputStream(jarEntry)
                 if (checkJarFile(name)) {
                     val subName = name.substring(name.lastIndexOf("/") + 1)
-                    when {
-                        subName.endsWith("RouteTable.class") ->
-                            routeTables.add(subName.substring(0, subName.length - 6))
-                        subName.endsWith("MatcherTable.class") ->
-                            matcherTables.add(subName.substring(0, subName.length - 6))
-                        subName.endsWith("GlobalInterceptorTable.class") ->
-                            interceptorTables.add(subName.substring(0, subName.length - 6))
-                    }
+                    saveFileNames(subName)
                 }
                 jarOutputStream.putNextEntry(zipEntry)
                 jarOutputStream.write(IOUtils.toByteArray(inputStream))
@@ -128,6 +109,17 @@ class RouterTransform : Transform() {
                 !(absolutePath.contains("/intermediates/") || absolutePath.contains("\\intermediates\\"))
 
     private fun checkJarFile(fileName: String) =
-        Pattern.compile("^(a/)?A[0-9A-Z]{32}(GlobalInterceptor|Matcher|Route)Table.class\$")
+        Pattern.compile("^(my/itgungnir/grouter/)?G[0-9A-Z]{32}(((GlobalInterceptor|Matcher)Table)|(DefaultRoute)|(Route4.*)).class\$")
             .matcher(fileName).matches()
+
+    private fun saveFileNames(name: String) {
+        when {
+            name.contains("Route4") || name.endsWith("DefaultRoute.class") ->
+                routeTables.add(name.substring(0, name.length - 6))
+            name.endsWith("MatcherTable.class") ->
+                matcherTables.add(name.substring(0, name.length - 6))
+            name.endsWith("GlobalInterceptorTable.class") ->
+                interceptorTables.add(name.substring(0, name.length - 6))
+        }
+    }
 }

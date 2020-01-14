@@ -28,10 +28,9 @@ class RouterManager(var request: RouterRequest) {
     /**
      * 添加拦截器，可调用多次
      */
-    fun addInterceptor(interceptor: BaseInterceptor) =
-        apply {
-            request = request.addInterceptor(interceptor)
-        }
+    fun addInterceptor(interceptor: BaseInterceptor) = apply {
+        request = request.addInterceptor(interceptor)
+    }
 
     /**
      * 通过请求获取RouterResponse对象

@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import my.itgungnir.grouter.annotation.Route
 
-@Route("account4")
+@Route("/account/account4")
 class AccountActivity4 : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

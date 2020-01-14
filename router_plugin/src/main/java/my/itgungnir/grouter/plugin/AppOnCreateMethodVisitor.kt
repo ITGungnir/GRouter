@@ -33,7 +33,7 @@ class AppOnCreateMethodVisitor(
     }
 
     private fun generateCode(fileName: String) {
-        val path = "a/$fileName"
+        val path = "my/itgungnir/grouter/$fileName"
         mv.visitTypeInsn(Opcodes.NEW, path)
         mv.visitInsn(Opcodes.DUP)
         mv.visitMethodInsn(Opcodes.INVOKESPECIAL, path, "<init>", "()V", false)

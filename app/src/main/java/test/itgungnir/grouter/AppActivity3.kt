@@ -8,7 +8,7 @@ import my.itgungnir.grouter.annotation.Route
 import my.itgungnir.grouter.api.Router
 import my.itgungnir.grouter.api.result.ProxyResult
 
-@Route("app3")
+@Route("/app/app3")
 class AppActivity3 : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

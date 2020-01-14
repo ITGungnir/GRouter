@@ -1,9 +1,6 @@
 package my.itgungnir.grouter.compiler
 
-import com.squareup.kotlinpoet.FileSpec
-import com.squareup.kotlinpoet.FunSpec
-import com.squareup.kotlinpoet.TypeSpec
-import com.squareup.kotlinpoet.asClassName
+import com.squareup.kotlinpoet.*
 import my.itgungnir.grouter.annotation.Route
 import java.io.File
 import javax.annotation.processing.RoundEnvironment
@@ -30,33 +27,46 @@ class RouteCompiler : BaseCompiler() {
         val routes = roundEnv.getElementsAnnotatedWith(Route::class.java)
 
         if (routes.isNotEmpty()) {
-            generateRouteTable(routes)
+            generateRouteTables(routes)
         }
 
         return true
     }
 
-    private fun generateRouteTable(routes: Set<Element>) {
+    private fun generateRouteTables(routes: Set<Element>) {
+
+        val legalRoutes = routes.map { it as TypeElement }
+            .map { it.getAnnotation(Route::class.java).path to it.asClassName() }
+            .filter { it.first.startsWith("/") }
+            .groupBy { it.first.substring(1).indexOf("/") == -1 }
+
+        // default group
+        legalRoutes[true]?.let {
+            generateGroupedRouteTable("G${uuid()}DefaultRoute", it)
+        }
+
+        // other groups
+        legalRoutes[false]?.groupBy { it.first.split("/")[1] }?.map {
+            generateGroupedRouteTable("G${uuid()}Route4${it.key}", it.value)
+        }
+    }
+
+    private fun generateGroupedRouteTable(tableName: String, routePairs: List<Pair<String, ClassName>>) {
+        if (routePairs.isNullOrEmpty()) {
+            return
+        }
 
         val registerFun = FunSpec.builder("register")
 
-        val moduleRouteTableClazzName = "A${uuid()}RouteTable"
+        routePairs.forEach {
+            registerFun.addStatement("%T.instance.registerRoute(%S, %T::class.java)", router(), it.first, it.second)
+        }
 
-        routes.map { it as TypeElement }
-            .forEach {
-                registerFun.addStatement(
-                    "%T.instance.registerRoute(%S, %T::class.java)",
-                    router(),
-                    it.getAnnotation(Route::class.java).path,
-                    it.asClassName()
-                )
-            }
-
-        val moduleRouteTableClazz = TypeSpec.classBuilder(moduleRouteTableClazzName)
+        val moduleRouteTableClazz = TypeSpec.classBuilder(tableName)
             .addFunction(registerFun.build())
             .build()
 
-        FileSpec.builder(sourceDirectory, moduleRouteTableClazzName)
+        FileSpec.builder(sourceDirectory, tableName)
             .addType(moduleRouteTableClazz)
             .build()
             .writeTo(File(targetRoot))

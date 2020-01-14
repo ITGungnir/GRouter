@@ -10,7 +10,7 @@ import my.itgungnir.grouter.api.result.ProxyResult
 import test.itgungnir.grouter.common.router.interceptor.CertInterceptor
 import test.itgungnir.grouter.common.router.interceptor.LoginInterceptor
 
-@Route("main")
+@Route("/main")
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -33,7 +33,7 @@ class GlobalInterceptorCompiler : BaseCompiler() {
     private fun generateGlobalInterceptorTable(interceptors: Set<Element>) {
         val registerFun = FunSpec.builder("register")
 
-        val moduleInterceptorTableClazzName = "A${uuid()}GlobalInterceptorTable"
+        val moduleInterceptorTableClazzName = "G${uuid()}GlobalInterceptorTable"
 
         interceptors.map { it as TypeElement }
             .forEach {

@@ -16,7 +16,7 @@ import javax.lang.model.element.TypeElement
 abstract class BaseCompiler : AbstractProcessor() {
 
     // 生成文件的目录
-    protected val sourceDirectory = "a"
+    protected val sourceDirectory = "my.itgungnir.grouter"
 
     // kapt工具生成代码的根路径
     protected lateinit var targetRoot: String

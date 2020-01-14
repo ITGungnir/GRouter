@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.activity_account3.*
 import my.itgungnir.grouter.annotation.Route
 import my.itgungnir.grouter.api.Router
 
-@Route("account3")
+@Route("/account/account3")
 class AccountActivity3 : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -34,7 +34,7 @@ class MatcherCompiler : BaseCompiler() {
 
         val registerFun = FunSpec.builder("register")
 
-        val moduleMatcherTableClazzName = "A${uuid()}MatcherTable"
+        val moduleMatcherTableClazzName = "G${uuid()}MatcherTable"
 
         matchers.map { it as TypeElement }
             .forEach {
