@@ -4,9 +4,9 @@
 ![License](https://img.shields.io/badge/License-Apache2.0-blue.svg)
 ![](https://img.shields.io/badge/Email-itgungnir@163.com-ff69b4.svg)
 
-## **<font color="red">注意：使用前请先阅读下文中的注意事项！</font>**
+## **！！！！！！注意：使用前请先阅读下文中的注意事项！！！！！**
 
-## GRouter简介
+## 0、GRouter简介
 `GRouter`是基于`Kotlin Annotation Processing Tools`和`ASM`技术开发的一款适用于`Android`平台的模块化路由组件，具备以下特点：
 * 支持代码自动注入，用户无需编写额外的初始化代码；
 * 支持路由按分组进行按需加载；
