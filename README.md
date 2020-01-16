@@ -10,15 +10,14 @@
 `GRouter`是基于`Kotlin Annotation Processing Tools`和`ASM`技术开发的一款适用于`Android`平台的模块化路由组件，具备以下特点：
 * 支持代码自动注入，用户无需编写额外的初始化代码；
 * 支持路由按分组进行按需加载；
-* 支持配置局部路由拦截器`Interceptor`和全局的路由拦截器`GlobalInterceptor`；
+* 支持配置局部路由拦截器`Interceptor`和全局的路由拦截器`GlobalInterceptor`，且支持自定义优先级；
 * 支持配置路由匹配器`Matcher`，且支持自定义优先级；
 * 支持响应式的`startActivityForResult`操作；
 * 支持`clearGo`操作，即返回到几个页面之前的某个页面；
 * 支持`MultiDex`；
 
 以下功能将在后续版本中陆续加入：
-* 支持为全局路由拦截器设置优先级；
-* 支持`DeepLink`；
+* 支持`URL Schema`路由；
 * 支持自定义匹配`Activity`失败时的回调；
 * 支持生成路由文档；
 
@@ -175,7 +174,7 @@ Router.instance.with(this)
 ```
 
 #### 7）`@Matcher`注解
-用于指定某个类为路由匹配器，用于匹配不同类型的`Uri`，从而进行不同的跳转，该类必须继承自`Matcher`抽象类。示例代码：
+用于指定某个类为路由匹配器，用于匹配不同类型的`Uri`，从而进行不同的跳转，该类必须继承自`BaseMatcher`抽象类。示例代码：
 ```kotlin
 @Matcher
 class TelMatcher : BaseMatcher(priority = 3) {
@@ -196,11 +195,15 @@ Router.instance.with(this)
     .go()
 ```
 
+`GRouter`中默认提供了一些默认的`BaseMatcher`，介绍如下：
+* `PathMatcher(priority = 4)`：匹配路由表中的路由；
+* `WebMatcher(priority = 6)`：匹配跳转到网页的路由；
+
 #### 8）`@GlobalInterceptor`注解
 `@GlobalInterceptor`用于设置全局路由器，配置之后所有路由操作都会添加该拦截器拦截。配置的拦截器必须实现`Interceptor`接口，示例代码：
 ```kotlin
 @GlobalInterceptor
-class LogGlobalInterceptor : Interceptor {
+class LogGlobalInterceptor : BaseGlobalInterceptor(priority = 1) {
 
     override fun intercept(chain: Interceptor.Chain): RouterResponse {
 
@@ -212,6 +215,8 @@ class LogGlobalInterceptor : Interceptor {
     }
 }
 ```
+从`GRouter v1.2.0`版本开始，全局路由拦截器需要配置`priority`属性标识其优先级，优先级为`Int`类型，值在`[1, 9]`之间，1最高。
+
 配置该日志拦截器后，当发生路由跳转时会打印如下日志：
 ```text
 ------>>Router: test.itgungnir.grouter.MainActivity -> app1
@@ -219,6 +224,10 @@ class LogGlobalInterceptor : Interceptor {
 ------>>Router: test.itgungnir.grouter.MainActivity -> tel:88888888
 ```
 **注意：** 拦截器的拦截顺序为：`局部拦截器列表 -> VerifyInterceptor -> 自定义的全局拦截器 -> IntentInterceptor`。
+
+`GRouter`中提供了一些默认的全局拦截器，介绍如下：
+* `VerifyInterceptor`：判断发起路由的是否是`Context`或`Fragment`；
+* `IntentInterceptor`：调用`Matcher`列表匹配路由，判断是否能匹配到路由；
 
 ## 4、使用本框架的注意事项（重要！！！）
 #### 1）所有通过`@Route`注解配置的路由字符串必须以`/`开头！

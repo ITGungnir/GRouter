@@ -9,7 +9,7 @@ import my.itgungnir.grouter.api.matcher.BaseMatcher
  * 最后一个拦截器，将请求处理成Intent对象
  * 通过Matcher列表匹配请求，生成不同类型的Intent
  */
-class IntentInterceptor(private val matchers: Set<BaseMatcher>) : Interceptor {
+class IntentGlobalInterceptor(private val matchers: Set<BaseMatcher>) : BaseGlobalInterceptor(priority = 1) {
 
     init {
         // 根据Matcher的优先级对Matcher列表进行排序

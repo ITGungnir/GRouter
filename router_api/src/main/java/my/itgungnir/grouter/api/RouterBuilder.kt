@@ -29,7 +29,7 @@ class RouterBuilder(val context: WeakReference<Any>) {
         if (!target.startsWith("/") || isDefaultRoute(target)) {
             return
         }
-        if (Router.instance.routeMap().containsKey(target)) {
+        if (Router.instance.routeMap.containsKey(target)) {
             return
         }
         loadAdditionalRouteMaps(target)
@@ -38,7 +38,7 @@ class RouterBuilder(val context: WeakReference<Any>) {
     private fun isDefaultRoute(target: String) = !target.substring(1).contains("/")
 
     private fun loadAdditionalRouteMaps(target: String) {
-        val fileNames = Router.instance.additionalRouteMaps().filter { it.endsWith("Route4${getRouteGroup(target)}") }
+        val fileNames = Router.instance.additionalRouteNames.filter { it.endsWith("Route4${getRouteGroup(target)}") }
         if (fileNames.isNullOrEmpty()) {
             return
         }

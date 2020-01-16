@@ -9,7 +9,7 @@ import my.itgungnir.grouter.api.dto.RouterResponse
  *
  * 验证路由的发出方是否合法
  */
-class VerifyInterceptor : Interceptor {
+class VerifyGlobalInterceptor : BaseGlobalInterceptor(priority = 1) {
 
     override fun intercept(chain: Interceptor.Chain): RouterResponse {
 

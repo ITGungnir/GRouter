@@ -7,7 +7,9 @@ import androidx.fragment.app.Fragment
 import my.itgungnir.grouter.api.dto.RouterRequest
 import my.itgungnir.grouter.api.dto.RouterResponse
 import my.itgungnir.grouter.api.interceptor.BaseInterceptor
+import my.itgungnir.grouter.api.interceptor.IntentGlobalInterceptor
 import my.itgungnir.grouter.api.interceptor.Interceptor
+import my.itgungnir.grouter.api.interceptor.VerifyGlobalInterceptor
 import my.itgungnir.grouter.api.result.ProxyManager
 
 /**
@@ -38,7 +40,8 @@ class RouterManager(var request: RouterRequest) {
     private fun getRouterResponse(): RouterResponse {
         // 整合系统和自定义的拦截器
         val chain = Interceptor.Chain(
-            interceptors = request.interceptors + Router.instance.globalInterceptors(),
+            interceptors = request.interceptors + VerifyGlobalInterceptor() +
+                    Router.instance.globalInterceptors + IntentGlobalInterceptor(Router.instance.matchers),
             index = 0, request = request
         )
         // 通过拦截器链生成RouterResponse
@@ -81,10 +84,10 @@ class RouterManager(var request: RouterRequest) {
      * 如果目标Activity不存在，则在当前任务栈顶压入一个新的目标Activity
      */
     fun clearGo() {
-        if (!Router.instance.routeMap().contains(request.target.toString())) {
+        if (!Router.instance.routeMap.contains(request.target.toString())) {
             return
         }
-        RouteTracker.instance.clearGo(Router.instance.routeMap()[request.target.toString()]!!) {
+        RouteTracker.instance.clearGo(Router.instance.routeMap[request.target.toString()]!!) {
             go()
         }
     }

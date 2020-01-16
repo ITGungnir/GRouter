@@ -15,7 +15,7 @@ abstract class BaseMatcher(private val priority: Int = 9) : Comparable<BaseMatch
     init {
         // 排除优先级不合法的Matcher
         if (priority < 1 || priority > 9) {
-            throw IllegalArgumentException("Matcher priority must in [1, 9].")
+            throw IllegalArgumentException("A matcher's priority should be in [1, 9].")
         }
     }
 

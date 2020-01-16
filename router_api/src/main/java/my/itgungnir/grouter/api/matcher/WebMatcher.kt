@@ -9,7 +9,7 @@ import my.itgungnir.grouter.api.dto.RouterRequest
  *
  * 如果target以“http://”或“https://”开头，则表示匹配成功
  */
-class WebMatcher : BaseMatcher(priority = 2) {
+class WebMatcher : BaseMatcher(priority = 6) {
 
     override fun matched(request: RouterRequest): Boolean =
         request.target.toString().startsWith("http://") ||
