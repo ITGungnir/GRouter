@@ -17,6 +17,7 @@
 * 支持`MultiDex`；
 
 以下功能将在后续版本中陆续加入：
+* 支持为全局路由拦截器设置优先级；
 * 支持`DeepLink`；
 * 支持自定义匹配`Activity`失败时的回调；
 * 支持生成路由文档；
@@ -162,7 +163,9 @@ Router.instance.with(this)
     })
     .go()
 ```
-单体拦截器仅针对当前路由，随用随配置，如果想设置全局路由器，参考下面的`@GlobalInterceptor`注解用法。
+单体拦截器仅针对当前路由，随用随配置。先调用`addInterceptor()`的拦截器会先被执行。
+
+如果想设置全局路由器，参考下面的`@GlobalInterceptor`注解用法。
 
 #### 6）用系统浏览器打开网页
 ```kotlin
@@ -215,7 +218,7 @@ class LogGlobalInterceptor : Interceptor {
 ------>>Router: test.itgungnir.grouter.MainActivity -> https://www.baidu.com/
 ------>>Router: test.itgungnir.grouter.MainActivity -> tel:88888888
 ```
-**注意：** 拦截器的添加顺序为：`单体拦截器列表 -> VerifyInterceptor -> 自定义的全局拦截器 -> IntentInterceptor`。
+**注意：** 拦截器的拦截顺序为：`局部拦截器列表 -> VerifyInterceptor -> 自定义的全局拦截器 -> IntentInterceptor`。
 
 ## 4、使用本框架的注意事项（重要！！！）
 #### 1）所有通过`@Route`注解配置的路由字符串必须以`/`开头！

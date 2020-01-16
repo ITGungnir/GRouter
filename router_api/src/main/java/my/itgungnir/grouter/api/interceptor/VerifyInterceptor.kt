@@ -17,7 +17,7 @@ class VerifyInterceptor : Interceptor {
 
         return when (request.safeContext()) {
             is Context, is Fragment -> chain.proceed(request)
-            else -> throw IllegalArgumentException("Unsupported context type.")
+            else -> throw IllegalArgumentException("GRouter only supports navigation from Contexts or Fragments.")
         }
     }
 }
