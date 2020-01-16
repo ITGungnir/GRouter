@@ -4,9 +4,22 @@
 ![License](https://img.shields.io/badge/License-Apache2.0-blue.svg)
 ![](https://img.shields.io/badge/Email-itgungnir@163.com-ff69b4.svg)
 
-### Android router framework based on KAPT and ASM tools.
+## **<font color="red">注意：使用前请先阅读下文中的注意事项！</font>**
 
-## **注意：使用前请先阅读下文中的注意事项！**
+## GRouter简介
+`GRouter`是基于`Kotlin Annotation Processing Tools`和`ASM`技术开发的一款适用于`Android`平台的模块化路由组件，具备以下特点：
+* 支持代码自动注入，用户无需编写额外的初始化代码；
+* 支持路由按分组进行按需加载；
+* 支持配置局部路由拦截器`Interceptor`和全局的路由拦截器`GlobalInterceptor`；
+* 支持配置路由匹配器`Matcher`，且支持自定义优先级；
+* 支持响应式的`startActivityForResult`操作；
+* 支持`clearGo`操作，即返回到几个页面之前的某个页面；
+* 支持`MultiDex`；
+
+以下功能将在后续版本中陆续加入：
+* 支持`DeepLink`；
+* 支持自定义匹配`Activity`失败时的回调；
+* 支持生成路由文档；
 
 ## 1、配置
 #### 1）在工程根目录下的`build.gradle`文件中添加依赖：
@@ -297,14 +310,6 @@ L5
 ```
 
 `LINENUMBER`和`L5`两行可以忽略，只看它们中间的这几行，我们可以通过每行行首的操作符，去`Google`它们的用法。
-
-## To polish
-* 为`Activity`增加`@Autowired`注解，实现参数自动注入（此处可能会有混淆规则）；
-* 使用`ContentProvider`进行`GRouter`的初始化，具体参考[对于ARouter一些改进的建议](https://github.com/alibaba/ARouter/issues/630)；
-* 在跳转到某个`Activity`之前先判断其是否存在，如果不存在则回调给用户处理；
-* 支持解析标准`URL`进行跳转；
-* 支持设置专场动画；
-* 支持生成路由文档；
 
 ## Change Log
 #### v1.2.0
