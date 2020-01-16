@@ -6,8 +6,9 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_app2.*
 import my.itgungnir.grouter.annotation.Route
+import test.itgungnir.grouter.common.AppAppActivity2
 
-@Route("/app/app2")
+@Route(AppAppActivity2)
 class AppActivity2 : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

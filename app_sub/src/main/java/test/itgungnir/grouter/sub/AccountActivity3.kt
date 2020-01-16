@@ -13,8 +13,10 @@ import androidx.core.app.NotificationCompat
 import kotlinx.android.synthetic.main.activity_account3.*
 import my.itgungnir.grouter.annotation.Route
 import my.itgungnir.grouter.api.Router
+import test.itgungnir.grouter.common.AppMainActivity
+import test.itgungnir.grouter.common.SubAccountActivity3
 
-@Route("/account/account3")
+@Route(SubAccountActivity3)
 class AccountActivity3 : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,7 +42,7 @@ class AccountActivity3 : AppCompatActivity() {
         }
 
         val intent = Router.instance.with(this)
-            .target("main")
+            .target(AppMainActivity)
             .addFlag(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             .addFlag(Intent.FLAG_ACTIVITY_SINGLE_TOP)
             .getIntent()

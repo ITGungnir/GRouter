@@ -5,8 +5,10 @@ import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_another3.*
 import my.itgungnir.grouter.annotation.Route
 import my.itgungnir.grouter.api.Router
+import test.itgungnir.grouter.common.SubAnotherActivity3
+import test.itgungnir.grouter.common.SubAnotherActivity4
 
-@Route("/another/another3")
+@Route(SubAnotherActivity3)
 class AnotherActivity3 : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -15,7 +17,7 @@ class AnotherActivity3 : AppCompatActivity() {
 
         button.setOnClickListener {
             Router.instance.with(this)
-                .target("another4")
+                .target(SubAnotherActivity4)
                 .go()
         }
     }

@@ -18,8 +18,36 @@ class RouterBuilder(val context: WeakReference<Any>) {
      */
     fun target(target: String): RouterManager {
 
+        lazyLoadRouteMapsIfNeeded(target)
+
         request = request.target(Uri.parse(target))
 
         return RouterManager(request)
+    }
+
+    private fun lazyLoadRouteMapsIfNeeded(target: String) {
+        if (!target.startsWith("/") || isDefaultRoute(target)) {
+            return
+        }
+        if (Router.instance.routeMap().containsKey(target)) {
+            return
+        }
+        loadAdditionalRouteMaps(target)
+    }
+
+    private fun isDefaultRoute(target: String) = !target.substring(1).contains("/")
+
+    private fun loadAdditionalRouteMaps(target: String) {
+        val fileNames = Router.instance.additionalRouteMaps().filter { it.endsWith("Route4${getRouteGroup(target)}") }
+        if (fileNames.isNullOrEmpty()) {
+            return
+        }
+        fileNames.forEach { fileName -> registerAdditionalRoutes(fileName) }
+    }
+
+    private fun getRouteGroup(target: String) = target.substring(1).split("/")[0]
+
+    private fun registerAdditionalRoutes(fileName: String) {
+        Class.forName(fileName).apply { getDeclaredMethod("register").invoke(newInstance()) }
     }
 }

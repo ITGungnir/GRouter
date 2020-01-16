@@ -1,4 +1,4 @@
-package my.itgungnir.grouter.plugin
+package my.itgungnir.grouter.plugin.app_visitor
 
 import org.objectweb.asm.ClassVisitor
 import org.objectweb.asm.MethodVisitor
@@ -40,12 +40,7 @@ class AppClassVisitor(
             return mv
         }
         if (superName!!.endsWith("Application") && name == "onCreate") {
-            return AppOnCreateMethodVisitor(
-                mv,
-                routeTables,
-                matcherTables,
-                interceptorTables
-            )
+            return AppOnCreateMethodVisitor(mv, routeTables, matcherTables, interceptorTables)
         }
         return mv
     }

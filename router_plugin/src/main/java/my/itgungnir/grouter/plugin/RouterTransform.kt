@@ -3,6 +3,7 @@ package my.itgungnir.grouter.plugin
 import com.android.build.api.transform.*
 import com.android.build.gradle.internal.pipeline.TransformManager
 import com.android.utils.FileUtils
+import my.itgungnir.grouter.plugin.app_visitor.AppClassVisitor
 import org.apache.commons.compress.utils.IOUtils
 import org.objectweb.asm.ClassReader
 import org.objectweb.asm.ClassWriter
@@ -32,34 +33,27 @@ class RouterTransform : Transform() {
     override fun transform(transformInvocation: TransformInvocation) {
         val inputs = transformInvocation.inputs
         val outputProvider = transformInvocation.outputProvider
+        // 扫描之前先清空
+        routeTables.clear()
+        matcherTables.clear()
+        interceptorTables.clear()
+        // 第一次扫描，收集需要注入的类名
         inputs.forEach { input ->
-            input.directoryInputs.forEach { file ->
-                handleDirInput(file, outputProvider)
-            }
-            input.jarInputs.forEach { file ->
-                handleJarInput(file, outputProvider)
-            }
+            input.jarInputs.forEach { scanJarFile(it, outputProvider) }
+            input.directoryInputs.forEach { scanDirFile(it, outputProvider) }
+        }
+        // 第二次扫描，将类注入到Application的onCreate()方法中
+        inputs.forEach { input ->
+            input.directoryInputs.forEach { insertCodeIntoDirFile(it, outputProvider) }
         }
     }
 
-    private fun handleDirInput(dirInput: DirectoryInput, outputProvider: TransformOutputProvider) {
+    private fun scanDirFile(dirInput: DirectoryInput, outputProvider: TransformOutputProvider) {
         if (dirInput.file.isDirectory) {
             dirInput.file.forEachFile { file ->
                 val name = file.name
                 if (checkJarFile(name)) {
                     saveFileNames(name)
-                }
-            }
-            dirInput.file.forEachFile { file ->
-                if (checkDirFile(file.absolutePath, file.name)) {
-                    val cr = ClassReader(file.readBytes())
-                    val cw = ClassWriter(cr, ClassWriter.COMPUTE_MAXS)
-                    val cv = AppClassVisitor(cw, routeTables, matcherTables, interceptorTables)
-                    cr.accept(cv, ClassReader.EXPAND_FRAMES)
-                    val code = cw.toByteArray()
-                    val fos = FileOutputStream(file.absolutePath)
-                    fos.write(code)
-                    fos.close()
                 }
             }
         }
@@ -69,7 +63,7 @@ class RouterTransform : Transform() {
         FileUtils.copyDirectory(dirInput.file, dest)
     }
 
-    private fun handleJarInput(jarInput: JarInput, outputProvider: TransformOutputProvider) {
+    private fun scanJarFile(jarInput: JarInput, outputProvider: TransformOutputProvider) {
         if (jarInput.file.absolutePath.endsWith(".jar")) {
             val jarFile = JarFile(jarInput.file)
             val enumeration = jarFile.entries()
@@ -100,6 +94,27 @@ class RouterTransform : Transform() {
             FileUtils.copyFile(tmpFile, dest)
             tmpFile.delete()
         }
+    }
+
+    private fun insertCodeIntoDirFile(dirInput: DirectoryInput, outputProvider: TransformOutputProvider) {
+        if (dirInput.file.isDirectory) {
+            dirInput.file.forEachFile { file ->
+                if (checkDirFile(file.absolutePath, file.name)) {
+                    val cr = ClassReader(file.readBytes())
+                    val cw = ClassWriter(cr, ClassWriter.COMPUTE_MAXS)
+                    val cv = AppClassVisitor(cw, routeTables, matcherTables, interceptorTables)
+                    cr.accept(cv, ClassReader.EXPAND_FRAMES)
+                    val code = cw.toByteArray()
+                    val fos = FileOutputStream(file.absolutePath)
+                    fos.write(code)
+                    fos.close()
+                }
+            }
+        }
+        val dest = outputProvider.getContentLocation(
+            dirInput.name, dirInput.contentTypes, dirInput.scopes, Format.DIRECTORY
+        )
+        FileUtils.copyDirectory(dirInput.file, dest)
     }
 
     private fun checkDirFile(absolutePath: String, fileName: String) =

@@ -16,6 +16,9 @@ class Router private constructor() {
     // 项目的总路由表
     private val routeMap = hashMapOf<String, Class<*>>()
 
+    // 非默认加载的路由表类名
+    private val additionalRouteNames = mutableSetOf<String>()
+
     // 路由匹配器集合
     private val matchers = hashSetOf(
         PathMatcher(),
@@ -53,7 +56,16 @@ class Router private constructor() {
         this.globalInterceptors.add(1, globalInterceptor)
     }
 
+    /**
+     * 注册非默认加载的路由表类名
+     */
+    fun registerAdditionalRouteMap(fileName: String) {
+        additionalRouteNames.add(fileName)
+    }
+
     fun routeMap() = routeMap
+
+    fun additionalRouteMaps() = additionalRouteNames
 
     fun globalInterceptors() = globalInterceptors
 

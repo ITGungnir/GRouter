@@ -3,8 +3,9 @@ package test.itgungnir.grouter
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import my.itgungnir.grouter.annotation.Route
+import test.itgungnir.grouter.common.AppAppActivity5
 
-@Route("/app/app5")
+@Route(AppAppActivity5)
 class AppActivity5 : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

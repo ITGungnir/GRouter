@@ -6,8 +6,9 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_another6.*
 import my.itgungnir.grouter.annotation.Route
+import test.itgungnir.grouter.common.SubAnotherActivity6
 
-@Route("/another/another6")
+@Route(SubAnotherActivity6)
 class AnotherActivity6 : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
