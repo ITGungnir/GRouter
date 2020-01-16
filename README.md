@@ -55,12 +55,20 @@ apply plugin: 'grouter'
 **注意：** 本步骤必须要做，否则无法注入代码！
 
 ## 2、基础使用
+#### 0）分组的概念
+`GRouter`在`v1.2.0`版本后增加了分组的概念，可以按需初始化，其具体特点如下：
+* 在配置页面的路由时，`@Route`注解中的`path`字符串必须以`/`开头，否则`GRouter`在扫描路由时不会对它做处理；
+* `@Route`注解中的`path`字符串以`/`分级，如`/main`被视为一级；`/app/app1`被视为二级；以此类推；
+* 二级及以上的路由中被`/`隔开的第一部分视为路由的分组，如`/app/app1`的分组就是`app`；`/account/login/code`的分组是`account`；
+* 一级路由是默认路由，在`GRouter`初始化时会加载这些路由，而不会加载非一级路由；
+* 当用户要跳转到某个非一级路由时，`GRouter`会先判断当前路由表中是否有该路由，如果没有则说明该分组的路由还没有被初始化，此时才会初始化这个分组下的所有路由并添加到路由表中。
+
 #### 1）添加`@Route`注解
 在一个`Activity`类上添加`@Route`注解，表示当前`Activity`所代表的路由字符串。示例代码：
 ```kotlin
-@Route("main")
+@Route("/main")
 class MainActivity : AppCompatActivity()
-@Route("app1")
+@Route("/app/app1")
 class AppActivity1 : AppCompatActivity()
 ```
 
@@ -68,7 +76,7 @@ class AppActivity1 : AppCompatActivity()
 将如下代码写到`MainActivity`中某个按钮的点击事件中，点击按钮时即可从`MainActivity`跳转到`AppActivity1`中。
 ```kotlin
 Router.instance.with(this)
-    .target("app1")
+    .target("/app/app1")
     .go()
 ```
 
@@ -76,7 +84,7 @@ Router.instance.with(this)
 #### 1）携带参数跳转
 ```kotlin
 Router.instance.with(this)
-    .target("app1")
+    .target("/app/app1")
     .addParam("key1", "value1")
     .addParam("key2", 222)
     .go()
@@ -86,7 +94,7 @@ Router.instance.with(this)
 **注意：** 如果要使用本功能，请确保项目中引入了`RxJava 2.x`的依赖，否则会报错！
 ```kotlin
 Router.instance.with(this)
-    .target("app1")
+    .target("/app/app1")
     .goForResult(1)?.subscribe {
         if (it.code == ProxyResult.ResultCode.RESULT_OK) {
             it.extras.getString("backKey")?.let { str ->
@@ -99,7 +107,7 @@ Router.instance.with(this)
 #### 3）添加`Flag`
 ```kotlin
 val intent = Router.instance.with(this)
-    .target("main")
+    .target("/main")
     .addFlag(Intent.FLAG_ACTIVITY_CLEAR_TOP)
     .addFlag(Intent.FLAG_ACTIVITY_SINGLE_TOP)
     .getIntent()
@@ -110,7 +118,7 @@ val intent = Router.instance.with(this)
 如果目标`Activity`尚不存在于当前任务栈中，则会在任务栈顶压入一个新的目标`Activity`。
 ```kotlin
 Router.instance.with(this)
-    .target("main")
+    .target("/main")
     .clearGo()
 ```
 **注意：** 本操作仅适用于应用内`Activity`之间的跳转，不适合网页跳转、电话跳转等自定义跳转方式。
@@ -135,7 +143,7 @@ class LoginInterceptor(errorCallback: () -> Unit) : BaseInterceptor(errorCallbac
 在路由跳转时添加拦截器，示例代码：
 ```kotlin
 Router.instance.with(this)
-    .target("account4")
+    .target("/sub/account4")
     .addInterceptor(LoginInterceptor {
         toast("用户尚未登录，不能跳转到account4") // 跳转失败的回调
     })
@@ -197,17 +205,17 @@ class LogGlobalInterceptor : Interceptor {
 **注意：** 拦截器的添加顺序为：`单体拦截器列表 -> VerifyInterceptor -> 自定义的全局拦截器 -> IntentInterceptor`。
 
 ## 4、使用本框架的注意事项（重要！！！）
-#### 1）项目顶层模块（如app模块）的包结构至少要有两层，不要在`src/main/java`目录下直接建类，否则无法注入代码！
+#### 1）所有通过`@Route`注解配置的路由字符串必须以`/`开头！
 
-#### 2）项目的单级目录中请不要含有`intermediates`，否则无法注入代码！
+#### 2）项目的单级目录中请不要含有`intermediates`，否则无法注入代码，如`com.xxx.intermediates.yyy`下的文件不会被扫描！
 
-#### 3）无论有没有用到，都需要在顶层模块中创建`Application`类，重写`onCreate()`方法，并在`AndroidManifest.xml`文件中配置，否则无法注入代码！
+#### 3）必须在`app`模块下创建`android.app.Application`的子类，重写`onCreate()`方法，并在`AndroidManifest.xml`文件中配置，否则无法注入代码！
 
 #### 4）如果要使用`goForResult()`操作，必须确保项目中导入了`RxJava 2.x`依赖，否则运行时报错：找不到`Observable`类！
 
 #### 5）建议将app模块作为壳子模块，其中的类越少越好~
 
-#### 6）建议使用`Kotlin`语言，如果使用`Java`语言，`goForResult()`等一些功能语法会显得非常不优雅～
+#### 6）建议使用`Kotlin`语言结合本框架使用，`goForResult()`等功能语法会略显不优雅～
 
 ## 5、`router_compiler`模块调试方法
 #### 1）在`Terminal`中输入以下代码：
@@ -270,14 +278,40 @@ buildscript {
 
 第三步：`app -> Tasks -> build -> build`，此时在`Run`面板中即可看到日志
 
+## 7、ASM代码编写心得
+可以先在`Android Studio`或`IntelliJ IDEA`中写好目标代码，然后通过`Kotlin`工具中的`Show Kotlin Bytecode`生成字节码，再对应调用响应的方法即可。
+
+例如，我想要在`Application`子类的`onCreate()`方法中注入以下代码：
+```kotlin
+Router.instance.registerAdditionalRouteMap("TargetRouteMapFileName")
+```
+
+此时我会先将这行代码写到`Application`的`onCreate()`方法的最后，然后在菜单栏上点击`Tools -> Kotlin -> Show Kotlin Bytecode`，就可以在`Kotlin Bytecode`面板中查看到字节码：
+```text
+ LINENUMBER 17 L4
+ GETSTATIC my/itgungnir/grouter/api/Router.Companion : Lmy/itgungnir/grouter/api/Router$Companion;
+ INVOKEVIRTUAL my/itgungnir/grouter/api/Router$Companion.getInstance ()Lmy/itgungnir/grouter/api/Router;
+ LDC "TargetRouteMapFileName"
+ INVOKEVIRTUAL my/itgungnir/grouter/api/Router.registerAdditionalRouteMap (Ljava/lang/String;)V
+L5
+```
+
+`LINENUMBER`和`L5`两行可以忽略，只看它们中间的这几行，我们可以通过每行行首的操作符，去`Google`它们的用法。
+
 ## To polish
-* 为`Activity`增加`@Autowired`注解，实现参数自动注入；
+* 为`Activity`增加`@Autowired`注解，实现参数自动注入（此处可能会有混淆规则）；
 * 使用`ContentProvider`进行`GRouter`的初始化，具体参考[对于ARouter一些改进的建议](https://github.com/alibaba/ARouter/issues/630)；
 * 在跳转到某个`Activity`之前先判断其是否存在，如果不存在则回调给用户处理；
 * 支持解析标准`URL`进行跳转；
-* 映射关系按组分类，按需初始化；
 * 支持设置专场动画；
 * 支持生成路由文档；
+
+## Change Log
+#### v1.2.0
+* 增加路由分组的概念，不同分组的路由按需加载；
+
+#### v1.1.2
+* 通过ASM技术将代码注入到Application的onCreate()方法中，避免用户自己配置
 
 ## License
 ```text
