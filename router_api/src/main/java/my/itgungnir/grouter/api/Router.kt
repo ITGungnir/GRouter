@@ -2,8 +2,8 @@ package my.itgungnir.grouter.api
 
 import my.itgungnir.grouter.api.interceptor.BaseGlobalInterceptor
 import my.itgungnir.grouter.api.matcher.BaseMatcher
-import my.itgungnir.grouter.api.matcher.PathMatcher
-import my.itgungnir.grouter.api.matcher.WebMatcher
+import my.itgungnir.grouter.api.matcher.DeepLinkMatcher
+import my.itgungnir.grouter.api.matcher.RouteMapMatcher
 import java.lang.ref.WeakReference
 
 /**
@@ -19,8 +19,8 @@ class Router private constructor() {
 
     // 路由匹配器集合
     val matchers = hashSetOf(
-        PathMatcher(),
-        WebMatcher()
+        RouteMapMatcher(),
+        DeepLinkMatcher()
     )
 
     // 全局路由拦截器集合

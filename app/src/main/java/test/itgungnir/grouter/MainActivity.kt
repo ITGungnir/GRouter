@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
     private fun initView() {
 
         // 跳转到本模块中的Activity，携带参数
-        button1.setOnClickListener {
+        nav_in_module_activity.setOnClickListener {
             Router.instance.with(this)
                 .target(AppAppActivity1)
                 .addParam("key1", "value1")
@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         // 跳转到其他模块中的Activity，携带参数
-        button2.setOnClickListener {
+        nav_other_module_activity.setOnClickListener {
             Router.instance.with(this)
                 .target(SubAccountActivity1)
                 .addParam("key1", "value1")
@@ -41,116 +41,113 @@ class MainActivity : AppCompatActivity() {
         }
 
         // 跳转到本模块中的Activity for result
-        button3.setOnClickListener {
+        nav_in_module_activity_for_result.setOnClickListener {
             Router.instance.with(this)
                 .target(AppAppActivity2)
                 .goForResult(1)?.subscribe {
                     if (it.code == ProxyResult.ResultCode.RESULT_OK) {
-                        it.extras.getString("backKey")?.let { str ->
-                            Toast.makeText(this, str, Toast.LENGTH_SHORT).show()
-                        }
+                        it.extras.getString("backKey")?.let { str -> toast(str) }
                     }
                 }
         }
 
         // 跳转到其他模块中的Activity for result
-        button4.setOnClickListener {
+        nav_other_module_activity_for_result.setOnClickListener {
             Router.instance.with(this)
                 .target(SubAccountActivity2)
                 .goForResult(1)?.subscribe {
                     if (it.code == ProxyResult.ResultCode.RESULT_OK) {
-                        it.extras.getString("backKey")?.let { str ->
-                            Toast.makeText(this, str, Toast.LENGTH_SHORT).show()
-                        }
+                        it.extras.getString("backKey")?.let { str -> toast(str) }
                     }
                 }
         }
 
-        // 验证匹配失败回调 - 设置了回调方法
-        button14.setOnClickListener {
+        // 验证匹配失败回调 - go
+        nav_not_matched_callback.setOnClickListener {
             Router.instance.with(this)
                 .target("/ghost_grout/ghost_page")
-                .go {
-                    Toast.makeText(this, "/ghost_grout/ghost_page页面不存在", Toast.LENGTH_SHORT).show()
-                }
+                .go { toast("/ghost_grout/ghost_page页面不存在") }
         }
 
-        // 验证匹配失败回调 - 没有设置回调方法
-        button15.setOnClickListener {
+        // 验证匹配失败回调 - goForResult
+        nav_not_matched_no_callback.setOnClickListener {
             Router.instance.with(this)
                 .target("/ghost_grout/ghost_page2")
-                .goForResult(2) {
-                    Toast.makeText(this, "/ghost_grout/ghost_page2页面不存在", Toast.LENGTH_SHORT).show()
-                }
+                .goForResult(2) { toast("/ghost_grout/ghost_page2页面不存在") }
         }
 
         // 验证addFlag和getIntent方法
-        button5.setOnClickListener {
+        nav_add_flag_get_intent.setOnClickListener {
             Router.instance.with(this)
                 .target(SubAccountActivity3)
                 .go()
         }
 
         // 验证clearGo方法
-        button6.setOnClickListener {
+        nav_clear_go.setOnClickListener {
             Router.instance.with(this)
                 .target(SubAnotherActivity1)
                 .go()
         }
 
-        // 添加登录拦截器
-        button7.setOnClickListener {
+        // 添加局部拦截器 - 拦截通过
+        nav_local_interceptor_pass.setOnClickListener {
             Router.instance.with(this)
                 .target(SubAccountActivity4)
-                .addInterceptor(LoginInterceptor {
-                    Toast.makeText(this, "用户尚未登录，不能跳转到account4", Toast.LENGTH_SHORT).show()
-                })
+                .addInterceptor(LoginInterceptor { toast("用户尚未登录，不能跳转到account4") })
                 .go()
         }
 
-        // 添加实名认证拦截器
-        button8.setOnClickListener {
+        // 添加局部拦截器 - 被拦截
+        nav_local_interceptor_intercepted.setOnClickListener {
             Router.instance.with(this)
                 .target(SubAccountActivity5)
-                .addInterceptor(CertInterceptor {
-                    Toast.makeText(this, "用户尚未通过实名认证，不能跳转到account5", Toast.LENGTH_SHORT).show()
-                })
+                .addInterceptor(CertInterceptor { toast("用户尚未通过实名认证，不能跳转到account5") })
                 .go()
         }
 
         // Activity1 -> Fragment1 -> Activity1
-        button9.setOnClickListener {
+        nav_activity_fragment_activity.setOnClickListener {
             Router.instance.with(this)
                 .target(AppAppActivity3)
                 .go()
         }
 
         // Fragment1 -> Activity1 -> Fragment1
-        button10.setOnClickListener {
+        nav_fragment_activity_fragment.setOnClickListener {
             Router.instance.with(this)
                 .target(AppAppActivity4)
                 .go()
         }
 
         // Fragment1 -> Fragment2 -> Fragment1
-        button11.setOnClickListener {
+        nav_fragment_fragment_fragment.setOnClickListener {
             Router.instance.with(this)
                 .target(AppAppActivity5)
                 .go()
         }
 
-        // 使用系统Matcher：打开网页
-        button12.setOnClickListener {
+        // 使用DeepLinkMatcher：打开系统浏览器
+        nav_open_web_browser.setOnClickListener {
             Router.instance.with(this)
                 .target("https://www.baidu.com/")
                 .go()
         }
 
+        // 使用DeepLinkMatcher：打开TestDeepLink应用
+        nav_open_custom_app.setOnClickListener {
+            Router.instance.with(this)
+                .target("deeplink://test.deeplink.com?param=hello,deepLink")
+                .go { toast("当前设备上没有安装TestDeepLink应用！") }
+        }
+
         // 使用自定义Matcher：拨打电话
-        button13.setOnClickListener {
+        nav_custom_matcher.setOnClickListener {
             Router.instance.with(this)
                 .target("tel:88888888")
                 .go()
         }
     }
+
+    private fun toast(message: String) = Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 }

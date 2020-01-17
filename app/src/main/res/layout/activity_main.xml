@@ -23,16 +23,18 @@
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/button1"
+            android:id="@+id/nav_in_module_activity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="跳转到本模块中的Activity" />
+            android:text="跳转到本模块中的Activity"
+            android:textAllCaps="false" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/nav_other_module_activity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="跳转到其他模块中的Activity" />
+            android:text="跳转到其他模块中的Activity"
+            android:textAllCaps="false" />
 
         <TextView
             android:layout_width="match_parent"
@@ -46,16 +48,18 @@
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/nav_in_module_activity_for_result"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="跳转到本模块中的Activity for result" />
+            android:text="跳转到本模块中的Activity for result"
+            android:textAllCaps="false" />
 
         <Button
-            android:id="@+id/button4"
+            android:id="@+id/nav_other_module_activity_for_result"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="跳转到其他模块中的Activity for result" />
+            android:text="跳转到其他模块中的Activity for result"
+            android:textAllCaps="false" />
 
         <TextView
             android:layout_width="match_parent"
@@ -69,10 +73,11 @@
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/button6"
+            android:id="@+id/nav_clear_go"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="验证clearGo方法" />
+            android:text="验证clearGo方法"
+            android:textAllCaps="false" />
 
         <TextView
             android:layout_width="match_parent"
@@ -86,16 +91,18 @@
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/button14"
+            android:id="@+id/nav_not_matched_callback"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="验证匹配失败回调 - 设置了回调方法" />
+            android:text="验证匹配失败回调 - go"
+            android:textAllCaps="false" />
 
         <Button
-            android:id="@+id/button15"
+            android:id="@+id/nav_not_matched_no_callback"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="验证匹配失败回调 - 没有设置回调方法" />
+            android:text="验证匹配失败回调 - goForResult"
+            android:textAllCaps="false" />
 
         <TextView
             android:layout_width="match_parent"
@@ -109,10 +116,11 @@
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/button5"
+            android:id="@+id/nav_add_flag_get_intent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="验证addFlag和getIntent方法" />
+            android:text="验证addFlag和getIntent方法"
+            android:textAllCaps="false" />
 
         <TextView
             android:layout_width="match_parent"
@@ -120,22 +128,24 @@
             android:background="@color/colorPrimary"
             android:gravity="center"
             android:paddingVertical="10dp"
-            android:text="添加路由拦截器"
+            android:text="添加局部路由拦截器"
             android:textColor="@android:color/white"
             android:textSize="16sp"
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/button7"
+            android:id="@+id/nav_local_interceptor_pass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="添加登录拦截器" />
+            android:text="添加局部拦截器 - 拦截通过"
+            android:textAllCaps="false" />
 
         <Button
-            android:id="@+id/button8"
+            android:id="@+id/nav_local_interceptor_intercepted"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="添加实名认证拦截器" />
+            android:text="添加局部拦截器 - 被拦截"
+            android:textAllCaps="false" />
 
         <TextView
             android:layout_width="match_parent"
@@ -149,22 +159,25 @@
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/button9"
+            android:id="@+id/nav_activity_fragment_activity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Activity1 -> Fragment1 -> Activity1" />
+            android:text="Activity1 -> Fragment1 -> Activity1"
+            android:textAllCaps="false" />
 
         <Button
-            android:id="@+id/button10"
+            android:id="@+id/nav_fragment_activity_fragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Fragment1 -> Activity1 -> Fragment1" />
+            android:text="Fragment1 -> Activity1 -> Fragment1"
+            android:textAllCaps="false" />
 
         <Button
-            android:id="@+id/button11"
+            android:id="@+id/nav_fragment_fragment_fragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Fragment1 -> Fragment2 -> Fragment1" />
+            android:text="Fragment1 -> Fragment2 -> Fragment1"
+            android:textAllCaps="false" />
 
         <TextView
             android:layout_width="match_parent"
@@ -172,16 +185,24 @@
             android:background="@color/colorPrimary"
             android:gravity="center"
             android:paddingVertical="10dp"
-            android:text="使用WebMatcher"
+            android:text="DeepLink"
             android:textColor="@android:color/white"
             android:textSize="16sp"
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/button12"
+            android:id="@+id/nav_open_web_browser"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="使用浏览器打开网页" />
+            android:text="打开系统浏览器"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/nav_open_custom_app"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="打开TestDeepLink应用"
+            android:textAllCaps="false" />
 
         <TextView
             android:layout_width="match_parent"
@@ -195,10 +216,11 @@
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/button13"
+            android:id="@+id/nav_custom_matcher"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="拨打电话" />
+            android:text="自定义Matcher：拨打电话"
+            android:textAllCaps="false" />
 
     </LinearLayout>
 

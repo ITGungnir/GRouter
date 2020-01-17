@@ -15,10 +15,11 @@
 * 支持响应式的`startActivityForResult`操作；
 * 支持`clearGo`操作，即返回到几个页面之前的某个页面；
 * 支持自定义匹配`Activity`失败时的回调；
+* 支持`URL Scheme`路由（`DeepLink`）；
 * 支持`MultiDex`；
 
 以下功能将在后续版本中陆续加入：
-* 支持`URL Scheme`路由；
+* 支持参数自动注入；
 * 支持生成路由文档；
 
 ## 1、配置
@@ -107,12 +108,10 @@ Router.instance.with(this)
 **注意：** 如果要使用本功能，请确保项目中引入了`RxJava 2.x`的依赖，否则会报错！
 ```kotlin
 Router.instance.with(this)
-    .target("/app/app1")
+    .target(AppAppActivity2)
     .goForResult(1)?.subscribe {
         if (it.code == ProxyResult.ResultCode.RESULT_OK) {
-            it.extras.getString("backKey")?.let { str ->
-                Toast.makeText(this, str, Toast.LENGTH_SHORT).show()
-            }
+            it.extras.getString("backKey")?.let { str -> toast(str) }
         }
     }
 ```
@@ -133,9 +132,7 @@ Router.instance.with(this)
 ```kotlin
 Router.instance.with(this)
     .target("/ghost_grout/ghost_page")
-    .go {
-        Toast.makeText(this, "/ghost_grout/ghost_page页面不存在", Toast.LENGTH_SHORT).show()
-    }
+    .go { toast("/ghost_grout/ghost_page页面不存在") }
 ```
 
 #### 5）添加`Flag`
@@ -167,21 +164,27 @@ class LoginInterceptor(errorCallback: () -> Unit) : BaseInterceptor(errorCallbac
 在路由跳转时添加拦截器，示例代码：
 ```kotlin
 Router.instance.with(this)
-    .target("/sub/account4")
-    .addInterceptor(LoginInterceptor {
-        toast("用户尚未登录，不能跳转到account4") // 跳转失败的回调
-    })
+    .target(SubAccountActivity4)
+    .addInterceptor(LoginInterceptor { toast("用户尚未登录，不能跳转到account4") })
     .go()
 ```
 单体拦截器仅针对当前路由，随用随配置。先调用`addInterceptor()`的拦截器会先被执行。
 
 如果想设置全局路由器，参考下面的`@GlobalInterceptor`注解用法。
 
-#### 7）用系统浏览器打开网页
+#### 7）`DeepLink`路由
+`GRouter`中提供了对`DeepLink`路由跳转的支持，可以通过`URL Scheme`的方式跳转到当前应用之外的其他应用，例如用系统浏览器打开网页：
 ```kotlin
 Router.instance.with(this)
     .target("https://www.baidu.com/")
     .go()
+```
+
+也可以通过其他应用中自定义的`Scheme`协议进行跳转，如跳转到我自己创建的`TestDeepLink`应用：
+```kotlin
+Router.instance.with(this)
+    .target("deeplink://test.deeplink.com?param=hello,deepLink")
+    .go { toast("当前设备上没有安装TestDeepLink应用！") }
 ```
 
 #### 8）`@Matcher`注解
@@ -207,8 +210,8 @@ Router.instance.with(this)
 ```
 
 `GRouter`中默认提供了一些默认的`BaseMatcher`，介绍如下：
-* `PathMatcher(priority = 4)`：匹配路由表中的路由；
-* `WebMatcher(priority = 6)`：匹配跳转到网页的路由；
+* `RouteMapMather(priority = 4)`：匹配路由表中的路由；
+* `DeepLinkMatcher(priority = 6)`：匹配DeepLink路由，跳转到其他APP；
 
 #### 9）`@GlobalInterceptor`注解
 `@GlobalInterceptor`用于设置全局路由器，配置之后所有路由操作都会添加该拦截器拦截。配置的拦截器必须实现`Interceptor`接口，示例代码：
