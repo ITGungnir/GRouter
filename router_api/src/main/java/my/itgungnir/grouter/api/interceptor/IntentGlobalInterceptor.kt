@@ -16,16 +16,12 @@ class IntentGlobalInterceptor(private val matchers: Set<BaseMatcher>) : BaseGlob
         matchers.sorted()
     }
 
-    override fun intercept(chain: Interceptor.Chain): RouterResponse {
+    override fun intercept(chain: Interceptor.Chain): RouterResponse? {
 
         val request = chain.request()
 
-        val matcher = matchers.find { it.matched(request) }
+        val matcher = matchers.find { it.matched(request) } ?: return null
 
-        if (null == matcher) {
-            throw IllegalArgumentException("Did not find a matcher for this request.")
-        } else {
-            return RouterResponse.succeed(matcher.proceed(request))
-        }
+        return RouterResponse.succeed(matcher.proceed(request))
     }
 }

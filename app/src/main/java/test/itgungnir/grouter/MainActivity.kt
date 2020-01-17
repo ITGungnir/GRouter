@@ -66,6 +66,24 @@ class MainActivity : AppCompatActivity() {
                 }
         }
 
+        // 验证匹配失败回调 - 设置了回调方法
+        button14.setOnClickListener {
+            Router.instance.with(this)
+                .target("/ghost_grout/ghost_page")
+                .go {
+                    Toast.makeText(this, "/ghost_grout/ghost_page页面不存在", Toast.LENGTH_SHORT).show()
+                }
+        }
+
+        // 验证匹配失败回调 - 没有设置回调方法
+        button15.setOnClickListener {
+            Router.instance.with(this)
+                .target("/ghost_grout/ghost_page2")
+                .goForResult(2) {
+                    Toast.makeText(this, "/ghost_grout/ghost_page2页面不存在", Toast.LENGTH_SHORT).show()
+                }
+        }
+
         // 验证addFlag和getIntent方法
         button5.setOnClickListener {
             Router.instance.with(this)

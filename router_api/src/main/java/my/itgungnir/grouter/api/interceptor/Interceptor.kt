@@ -10,7 +10,7 @@ import my.itgungnir.grouter.api.dto.RouterResponse
  */
 interface Interceptor {
 
-    fun intercept(chain: Chain): RouterResponse
+    fun intercept(chain: Chain): RouterResponse?
 
     /**
      * 拦截器链
@@ -26,7 +26,7 @@ interface Interceptor {
 
         fun request(): RouterRequest = this.request
 
-        fun proceed(request: RouterRequest): RouterResponse {
+        fun proceed(request: RouterRequest): RouterResponse? {
 
             if (this.index >= interceptors.size) {
                 throw AssertionError()

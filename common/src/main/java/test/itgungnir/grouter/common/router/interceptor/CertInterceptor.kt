@@ -7,7 +7,7 @@ import test.itgungnir.grouter.common.IS_USER_CERT
 
 class CertInterceptor(errorCallback: () -> Unit) : BaseInterceptor(errorCallback) {
 
-    override fun intercept(chain: Interceptor.Chain): RouterResponse {
+    override fun intercept(chain: Interceptor.Chain): RouterResponse? {
 
         return if (IS_USER_CERT) {
             chain.proceed(chain.request())

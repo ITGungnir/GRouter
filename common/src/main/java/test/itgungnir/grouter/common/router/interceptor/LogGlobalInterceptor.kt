@@ -8,7 +8,7 @@ import my.itgungnir.grouter.api.interceptor.Interceptor
 @GlobalInterceptor
 class LogGlobalInterceptor : BaseGlobalInterceptor(priority = 1) {
 
-    override fun intercept(chain: Interceptor.Chain): RouterResponse {
+    override fun intercept(chain: Interceptor.Chain): RouterResponse? {
 
         val request = chain.request()
 

@@ -63,23 +63,6 @@
             android:background="@color/colorPrimary"
             android:gravity="center"
             android:paddingVertical="10dp"
-            android:text="addFlag和getIntent"
-            android:textColor="@android:color/white"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <Button
-            android:id="@+id/button5"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="验证addFlag和getIntent方法" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
-            android:gravity="center"
-            android:paddingVertical="10dp"
             android:text="clearGo"
             android:textColor="@android:color/white"
             android:textSize="16sp"
@@ -90,6 +73,46 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="验证clearGo方法" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:paddingVertical="10dp"
+            android:text="验证匹配失败回调"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/button14"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="验证匹配失败回调 - 设置了回调方法" />
+
+        <Button
+            android:id="@+id/button15"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="验证匹配失败回调 - 没有设置回调方法" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:paddingVertical="10dp"
+            android:text="addFlag和getIntent"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/button5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="验证addFlag和getIntent方法" />
 
         <TextView
             android:layout_width="match_parent"
