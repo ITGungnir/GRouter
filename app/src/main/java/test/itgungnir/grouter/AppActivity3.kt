@@ -8,7 +8,7 @@ import my.itgungnir.grouter.annotation.Route
 import my.itgungnir.grouter.api.Router
 import my.itgungnir.grouter.api.result.ProxyResult
 import test.itgungnir.grouter.common.AppAppActivity3
-import test.itgungnir.grouter.common.SubAnotherActivity5
+import test.itgungnir.grouter.common.SubAnotherActivity1
 
 @Route(AppAppActivity3)
 class AppActivity3 : AppCompatActivity() {
@@ -19,7 +19,7 @@ class AppActivity3 : AppCompatActivity() {
 
         button.setOnClickListener {
             Router.instance.with(this)
-                .target(SubAnotherActivity5)
+                .target(SubAnotherActivity1)
                 .goForResult(1)?.subscribe {
                     if (it.code == ProxyResult.ResultCode.RESULT_OK) {
                         it.extras.getString("backKey")?.let { str ->

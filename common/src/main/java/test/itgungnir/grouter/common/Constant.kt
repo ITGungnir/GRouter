@@ -15,9 +15,6 @@ const val SubAccountActivity5 = "/sub/account5"
 const val SubAnotherActivity1 = "/sub/another1"
 const val SubAnotherActivity2 = "/sub/another2"
 const val SubAnotherActivity3 = "/sub/another3"
-const val SubAnotherActivity5 = "/sub/another5"
-const val SubAnotherActivity6 = "/sub/another6"
-const val SubAnotherActivity7 = "/sub/another7"
 
 const val IS_USER_CERT = false
 

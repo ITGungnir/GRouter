@@ -3,21 +3,19 @@ package test.itgungnir.grouter.sub
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import my.itgungnir.grouter.annotation.Route
-import test.itgungnir.grouter.common.SubAnotherActivity5
+import test.itgungnir.grouter.common.SubAnotherActivity3
 
-@Route(SubAnotherActivity5)
-class AnotherActivity5 : AppCompatActivity() {
+@Route(SubAnotherActivity3)
+class AnotherActivity3 : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_another5)
+        setContentView(R.layout.activity_another3)
 
-        val manager = supportFragmentManager
-
-        manager.beginTransaction()
+        supportFragmentManager.beginTransaction()
             .add(
                 R.id.fragment,
-                AnotherFragment5()
+                AnotherFragment3()
             )
             .commit()
     }

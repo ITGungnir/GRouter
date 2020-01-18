@@ -7,15 +7,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import kotlinx.android.synthetic.main.fragment_another7.*
+import kotlinx.android.synthetic.main.fragment_another3.*
 
-class AnotherFragment7 : Fragment() {
+class AnotherFragment3 : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ) = inflater.inflate(R.layout.fragment_another7, container, false)!!
+    ) = inflater.inflate(R.layout.fragment_another3, container, false)!!
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 

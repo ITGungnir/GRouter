@@ -3,11 +3,11 @@
 
     <application android:theme="@style/AppTheme">
 
-        <activity android:name=".AnotherActivity5" />
+        <activity android:name=".AnotherActivity1" />
 
-        <activity android:name=".AnotherActivity6" />
+        <activity android:name=".AnotherActivity2" />
 
-        <activity android:name=".AnotherActivity7" />
+        <activity android:name=".AnotherActivity3" />
 
         <activity android:name=".AccountActivity1" />
 

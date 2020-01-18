@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_app5.*
 import my.itgungnir.grouter.api.Router
 import my.itgungnir.grouter.api.result.ProxyResult
-import test.itgungnir.grouter.common.SubAnotherActivity7
+import test.itgungnir.grouter.common.SubAnotherActivity3
 
 class AppFragment5 : Fragment() {
 
@@ -23,7 +23,7 @@ class AppFragment5 : Fragment() {
 
         button.setOnClickListener {
             Router.instance.with(this)
-                .target(SubAnotherActivity7)
+                .target(SubAnotherActivity3)
                 .goForResult(1)?.subscribe {
                     if (it.code == ProxyResult.ResultCode.RESULT_OK) {
                         it.extras.getString("backKey")?.let { str ->
