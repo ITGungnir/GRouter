@@ -13,14 +13,9 @@
 * 支持配置局部路由拦截器`Interceptor`和全局的路由拦截器`GlobalInterceptor`，且支持自定义优先级；
 * 支持配置路由匹配器`Matcher`，且支持自定义优先级；
 * 支持响应式的`startActivityForResult`操作；
-* 支持`clearGo`操作，即返回到几个页面之前的某个页面；
 * 支持自定义匹配`Activity`失败时的回调；
 * 支持`URL Scheme`路由（`DeepLink`）；
 * 支持`MultiDex`；
-
-以下功能将在后续版本中陆续加入：
-* 支持参数自动注入；
-* 支持生成路由文档；
 
 ## 1、配置
 #### 1）在工程根目录下的`build.gradle`文件中添加依赖：
@@ -116,18 +111,8 @@ Router.instance.with(this)
     }
 ```
 
-#### 3）`clearGo()`操作
-`clearGo()`操作类似`SingleTask`的跳转，即清除任务栈中目标`Activity`之上的所有其他`Activity`。
-如果目标`Activity`尚不存在于当前任务栈中，则会在任务栈顶压入一个新的目标`Activity`。
-```kotlin
-Router.instance.with(this)
-    .target("/main")
-    .clearGo()
-```
-**注意：** 本操作仅适用于应用内`Activity`之间的跳转，不适合网页跳转、电话跳转等自定义跳转方式。
-
-#### 4）匹配失败回调
-`go()`、`goForResult()`、`clearGo()`三个方法中都可以多传入一个`notMatchedCallback: (() -> Unit)?`参数，如果`GRouter`没有找到匹配目标路由的`Mathcer`，就会调用这个方法，
+#### 3）匹配失败回调
+`go()`、`goForResult()`方法中都可以多传入一个`notMatchedCallback: (() -> Unit)?`参数，如果`GRouter`没有找到匹配目标路由的`Mathcer`，就会调用这个方法，
 用户可以在这个方法中做特殊处理，或者对页面请求进行降级。
 ```kotlin
 Router.instance.with(this)
@@ -135,7 +120,7 @@ Router.instance.with(this)
     .go { toast("/ghost_grout/ghost_page页面不存在") }
 ```
 
-#### 5）添加`Flag`
+#### 4）添加`Flag`
 ```kotlin
 val intent = Router.instance.with(this)
     .target("/main")
@@ -144,7 +129,7 @@ val intent = Router.instance.with(this)
     .getIntent()
 ```
 
-#### 6）添加单体拦截器
+#### 5）添加单体拦截器
 拦截器的使用场景：如果某些页面要求用户只有在登录之后才可以访问，则可以设置一个登录拦截器，可以简化场景判断。一个登录拦截器的代码示例如下：
 ```kotlin
 class LoginInterceptor(errorCallback: () -> Unit) : BaseInterceptor(errorCallback) {
@@ -172,7 +157,7 @@ Router.instance.with(this)
 
 如果想设置全局路由器，参考下面的`@GlobalInterceptor`注解用法。
 
-#### 7）`DeepLink`路由
+#### 6）`DeepLink`路由
 `GRouter`中提供了对`DeepLink`路由跳转的支持，可以通过`URL Scheme`的方式跳转到当前应用之外的其他应用，例如用系统浏览器打开网页：
 ```kotlin
 Router.instance.with(this)
@@ -187,7 +172,7 @@ Router.instance.with(this)
     .go { toast("当前设备上没有安装TestDeepLink应用！") }
 ```
 
-#### 8）`@Matcher`注解
+#### 7）`@Matcher`注解
 用于指定某个类为路由匹配器，用于匹配不同类型的`Uri`，从而进行不同的跳转，该类必须继承自`BaseMatcher`抽象类。示例代码：
 ```kotlin
 @Matcher
@@ -213,7 +198,7 @@ Router.instance.with(this)
 * `RouteMapMather(priority = 4)`：匹配路由表中的路由；
 * `DeepLinkMatcher(priority = 6)`：匹配DeepLink路由，跳转到其他APP；
 
-#### 9）`@GlobalInterceptor`注解
+#### 8）`@GlobalInterceptor`注解
 `@GlobalInterceptor`用于设置全局路由器，配置之后所有路由操作都会添加该拦截器拦截。配置的拦截器必须实现`Interceptor`接口，示例代码：
 ```kotlin
 @GlobalInterceptor
@@ -338,6 +323,9 @@ L5
 `LINENUMBER`和`L5`两行可以忽略，只看它们中间的这几行，我们可以通过每行行首的操作符，去`Google`它们的用法。
 
 ## Change Log
+#### v1.2.1
+* 移除`clearGo`功能
+
 #### v1.2.0
 * 增加路由分组的概念，不同分组的路由按需加载
 * 全局路由拦截器支持设置优先级

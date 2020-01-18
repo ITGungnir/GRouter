@@ -3,14 +3,6 @@
 
     <application android:theme="@style/AppTheme">
 
-        <activity android:name=".AnotherActivity1" />
-
-        <activity android:name=".AnotherActivity2" />
-
-        <activity android:name=".AnotherActivity3" />
-
-        <activity android:name=".AnotherActivity4" />
-
         <activity android:name=".AnotherActivity5" />
 
         <activity android:name=".AnotherActivity6" />

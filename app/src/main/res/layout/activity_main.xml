@@ -67,24 +67,6 @@
             android:background="@color/colorPrimary"
             android:gravity="center"
             android:paddingVertical="10dp"
-            android:text="clearGo"
-            android:textColor="@android:color/white"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <Button
-            android:id="@+id/nav_clear_go"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="验证clearGo方法"
-            android:textAllCaps="false" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
-            android:gravity="center"
-            android:paddingVertical="10dp"
             android:text="验证匹配失败回调"
             android:textColor="@android:color/white"
             android:textSize="16sp"

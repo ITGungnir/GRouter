@@ -22,11 +22,9 @@ class RouterTransform : Transform() {
 
     override fun getName() = "GRouter"
 
-    override fun getInputTypes(): MutableSet<QualifiedContent.ContentType> =
-        TransformManager.CONTENT_CLASS
+    override fun getInputTypes(): MutableSet<QualifiedContent.ContentType> = TransformManager.CONTENT_CLASS
 
-    override fun getScopes(): MutableSet<QualifiedContent.ScopeType> =
-        TransformManager.SCOPE_FULL_PROJECT
+    override fun getScopes(): MutableSet<QualifiedContent.ScopeType> = TransformManager.SCOPE_FULL_PROJECT
 
     override fun isIncremental(): Boolean = true
 

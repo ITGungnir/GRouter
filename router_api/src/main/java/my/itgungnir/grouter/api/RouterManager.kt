@@ -84,20 +84,6 @@ class RouterManager(var request: RouterRequest) {
     }
 
     /**
-     * 跳转到指定页面
-     * 相当于为目标页面配置了SingleTask启动模式
-     * 如果目标Activity不存在，则在当前任务栈顶压入一个新的目标Activity
-     */
-    fun clearGo(notMatchedCallback: (() -> Unit)? = null) {
-        if (!Router.instance.routeMap.contains(request.target.toString())) {
-            return
-        }
-        RouteTracker.instance.clearGo(Router.instance.routeMap[request.target.toString()]!!) {
-            go(notMatchedCallback)
-        }
-    }
-
-    /**
      * 相当于startActivityForResult()方法
      * 返回的是一个(RxJava)Observable对象
      */

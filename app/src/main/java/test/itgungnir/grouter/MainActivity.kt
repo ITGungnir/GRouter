@@ -83,13 +83,6 @@ class MainActivity : AppCompatActivity() {
                 .go()
         }
 
-        // 验证clearGo方法
-        nav_clear_go.setOnClickListener {
-            Router.instance.with(this)
-                .target(SubAnotherActivity1)
-                .go()
-        }
-
         // 添加局部拦截器 - 拦截通过
         nav_local_interceptor_pass.setOnClickListener {
             Router.instance.with(this)

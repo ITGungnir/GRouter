@@ -26,8 +26,6 @@ class AppOnCreateMethodVisitor(
             matcherTables.forEach { fileName -> generateCode(fileName) }
             // GlobalInterceptorTables
             interceptorTables.forEach { fileName -> generateCode(fileName) }
-            // RouteTracker
-            registerRouteTracker()
         }
         super.visitInsn(opcode)
     }
@@ -47,16 +45,5 @@ class AppOnCreateMethodVisitor(
         mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, cpnPath, "getInstance", "()L$clzPath;", false)
         mv.visitLdcInsn("my.itgungnir.grouter.$fileName")
         mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, clzPath, "registerAdditionalRouteMap", "(Ljava/lang/String;)V", false)
-    }
-
-    private fun registerRouteTracker() {
-        val clzPath = "my/itgungnir/grouter/api/RouteTracker"
-        val cpnPath = "my/itgungnir/grouter/api/RouteTracker\$Companion"
-        val appPath = "android/app/Application"
-        mv.visitFieldInsn(Opcodes.GETSTATIC, clzPath, "Companion", "L$cpnPath;")
-        mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, cpnPath, "getInstance", "()L$clzPath;", false)
-        mv.visitVarInsn(Opcodes.ALOAD, 0)
-        mv.visitTypeInsn(Opcodes.CHECKCAST, appPath)
-        mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, clzPath, "init", "(L$appPath;)V", false)
     }
 }
